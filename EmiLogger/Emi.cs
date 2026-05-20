@@ -6,7 +6,6 @@ namespace EmiLogger;
 
 public static class Emi
 {
-    private static readonly object WriteLock = new();
 
     public static LogLevel MinLevel { get; set; } = LogLevel.Debug;
 
@@ -34,17 +33,14 @@ public static class Emi
 
         string time = DateTimeOffset.Now.ToString("HH:mm:ss");
 
-        lock (WriteLock)
-        {
-            AnsiConsole.MarkupLine(
-                $"[[[darkorange]{time}[/]]] " +
-                $"[[[{meta.Color}]{meta.Label}[/]]] " +
-                $"[steelblue1_1]{Markup.Escape(caption)}:[/] " +
-                $"{Markup.Escape(message)}");
+        AnsiConsole.MarkupLine(
+            $"[[[darkorange]{time}[/]]] " +
+            $"[[[{meta.Color}]{meta.Label}[/]]] " +
+            $"[steelblue1_1]{Markup.Escape(caption)}:[/] " +
+            $"{Markup.Escape(message)}");
 
-            if (exception != null)
-                AnsiConsole.WriteException(exception, ExceptionFormats.ShortenPaths);
-        }
+        if (exception != null)
+            AnsiConsole.WriteException(exception, ExceptionFormats.ShortenPaths);
     }
 
     private static string CallerCaption(int skip = 2)
@@ -81,7 +77,7 @@ public static class Emi
 
     public static void Error(string message)
         => LogInternal(LogLevel.Error, CallerCaption(), message);
-    
+
     public static void Critical(string message)
         => LogInternal(LogLevel.Critical, CallerCaption(), message);
 
@@ -93,15 +89,13 @@ public static class Emi
 
     public static void Warn(string message, params object[] args)
         => LogInternal(LogLevel.Warning, CallerCaption(), string.Format(message, args));
-    
+
     public static void Error(string message, params object[] args)
         => LogInternal(LogLevel.Error, CallerCaption(), string.Format(message, args));
-    
+
     public static void Error(string message, Exception ex)
         => LogInternal(LogLevel.Error, CallerCaption(), message, ex);
-    
+
     public static void Critical(string message, Exception ex)
         => LogInternal(LogLevel.Critical, CallerCaption(), message, ex);
-
-
 }

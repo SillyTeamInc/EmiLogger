@@ -10,6 +10,11 @@ class Program
     static void Main(string[] args)
     {
         Emi.ForceSetCapabilities();
+        Emi.Debug("This is a debug message.");
+        Emi.Info("This is an info message.");
+        Emi.Warn("This is a warning message.");
+        Emi.Error("This is an error message.");
+        Emi.Critical("This is a critical message.");
         
         var builder = WebApplication.CreateBuilder(args);
 

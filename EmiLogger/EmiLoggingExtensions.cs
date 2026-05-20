@@ -8,7 +8,8 @@ public static class EmiLoggingExtensions
     public static ILoggingBuilder AddEmiLogging(
         this ILoggingBuilder builder,
         LogLevel appMinimum = LogLevel.Debug,
-        LogLevel aspNetMinimum = LogLevel.Warning)
+        LogLevel aspNetMinimum = LogLevel.Warning,
+        bool useDebugProviderWhenDebugging = true)
     {
         Emi.MinLevel = appMinimum;
  
@@ -18,7 +19,7 @@ public static class EmiLoggingExtensions
         builder.AddFilter<EmiLoggerProvider>("Microsoft", aspNetMinimum);
         builder.AddFilter<EmiLoggerProvider>("System", aspNetMinimum);
  
-        if (Debugger.IsAttached)
+        if (Debugger.IsAttached && useDebugProviderWhenDebugging)
         {
             builder.AddDebug();
             builder.AddFilter<Microsoft.Extensions.Logging.Debug.DebugLoggerProvider>("Microsoft", LogLevel.Trace);

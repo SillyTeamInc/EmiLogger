@@ -52,7 +52,8 @@ public static class Emi
         var frame = new StackTrace(true).GetFrames()
             .Skip(skip)
             .FirstOrDefault(f => f.GetMethod()?.DeclaringType != typeof(Emi));
-        return frame?.GetMethod()?.Name ?? "Unknown";
+        var method = frame?.GetMethod();
+        return method != null ? $"{method.DeclaringType?.Name}.{method.Name}" : "Unknown";
     }
 
     public static void Log(string caption, string message, LogLevel level = LogLevel.Information)

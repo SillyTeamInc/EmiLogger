@@ -24,6 +24,7 @@ public static class Emi
     {
         AnsiConsole.Profile.Capabilities.ColorSystem = ColorSystem.TrueColor;
         AnsiConsole.Profile.Capabilities.Ansi = true;
+        AnsiConsole.Profile.Width = 512;
     }
 
     internal static void LogInternal(LogLevel level, string caption, string message, Exception? exception = null)

@@ -6,7 +6,6 @@ namespace EmiLogger;
 
 public static class Emi
 {
-
     public static LogLevel MinLevel { get; set; } = LogLevel.Debug;
 
     private static readonly Dictionary<LogLevel, (string Label, string Color)> Levels = new()
@@ -67,14 +66,38 @@ public static class Emi
     public static void Log(string message, LogLevel level = LogLevel.Information)
         => LogInternal(level, CallerCaption(), message);
 
+    public static void Debug(string caption, string message)
+        => LogInternal(LogLevel.Debug, caption, message);
+
+    public static void Debug(string caption, string message, params object[] args)
+        => LogInternal(LogLevel.Debug, caption, string.Format(message, args));
+
     public static void Debug(string message)
         => LogInternal(LogLevel.Debug, CallerCaption(), message);
+
+    public static void Info(string caption, string message)
+        => LogInternal(LogLevel.Information, caption, message);
+
+    public static void Info(string caption, string message, params object[] args)
+        => LogInternal(LogLevel.Information, caption, string.Format(message, args));
 
     public static void Info(string message)
         => LogInternal(LogLevel.Information, CallerCaption(), message);
 
+    public static void Warn(string caption, string message)
+        => LogInternal(LogLevel.Warning, caption, message);
+
+    public static void Warn(string caption, string message, params object[] args)
+        => LogInternal(LogLevel.Warning, caption, string.Format(message, args));
+
     public static void Warn(string message)
         => LogInternal(LogLevel.Warning, CallerCaption(), message);
+
+    public static void Error(string caption, string message)
+        => LogInternal(LogLevel.Error, caption, message);
+
+    public static void Error(string caption, string message, params object[] args)
+        => LogInternal(LogLevel.Error, caption, string.Format(message, args));
 
     public static void Error(string message)
         => LogInternal(LogLevel.Error, CallerCaption(), message);
@@ -82,17 +105,6 @@ public static class Emi
     public static void Critical(string message)
         => LogInternal(LogLevel.Critical, CallerCaption(), message);
 
-    public static void Debug(string message, params object[] args)
-        => LogInternal(LogLevel.Debug, CallerCaption(), string.Format(message, args));
-
-    public static void Info(string message, params object[] args)
-        => LogInternal(LogLevel.Information, CallerCaption(), string.Format(message, args));
-
-    public static void Warn(string message, params object[] args)
-        => LogInternal(LogLevel.Warning, CallerCaption(), string.Format(message, args));
-
-    public static void Error(string message, params object[] args)
-        => LogInternal(LogLevel.Error, CallerCaption(), string.Format(message, args));
 
     public static void Error(string message, Exception ex)
         => LogInternal(LogLevel.Error, CallerCaption(), message, ex);
